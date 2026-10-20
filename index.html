@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devii Jii 💜</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #39205f, #170d2d 75%);
+  color: #f8edff;
+}
+
+.screen {
+  display: none;
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  min-height: 440px;
+  padding: 38px 22px 72px;
+  border: 1px solid #67438c;
+  border-radius: 25px;
+  background: linear-gradient(145deg, #2b1948, #211237);
+  box-shadow: 0 12px 45px #08031188;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 19px;
+}
+
+.screen.active {
+  display: flex;
+}
+
+h1 {
+  margin: 0;
+  color: #e5b8ff;
+  font-size: 25px;
+  line-height: 1.4;
+}
+
+p {
+  margin: 0;
+  color: #f1e4ff;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.emoji {
+  font-size: 76px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+button {
+  padding: 13px 18px;
+  border: 1px solid #9d69c9;
+  border-radius: 25px;
+  background: #70439b;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+
+button:hover {
+  background: #8756b4;
+}
+
+button:active {
+  transform: scale(.97);
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.back-button {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  padding: 9px 13px;
+  background: #302044;
+  border-color: #684584;
+  color: #e6c9ff;
+  font-size: 14px;
+}
+
+.cat {
+  font-size: 100px;
+  animation: dance .6s infinite alternate ease-in-out;
+}
+
+@keyframes dance {
+  from { transform: rotate(-9deg) translateY(0); }
+  to { transform: rotate(9deg) translateY(-8px); }
+}
+
+.teasing-screen {
+  gap: 25px;
+}
+
+.teasing-screen .emoji {
+  font-size: 88px;
+}
+
+.game-hearts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.heart {
+  min-width: 48px;
+  padding: 10px;
+  background: #392250;
+  font-size: 24px;
+}
+
+#gameMessage {
+  min-height: 24px;
+  color: #e5b8ff;
+  font-weight: bold;
+}
+
+.secret-button {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  background: #302044;
+  border: 1px solid #79549c;
+  color: #e5b8ff;
+  font-size: 20px;
+  opacity: .75;
+  z-index: 5;
+}
+
+.secret-button:hover {
+  opacity: 1;
+}
+
+#secretLoveScreen {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#heartShower {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.secret-message {
+  position: relative;
+  z-index: 2;
+  padding: 22px 14px;
+  border-radius: 22px;
+  background: #211237dd;
+  border: 1px solid #79549c;
+  animation: messageAppear 1s ease-out both;
+}
+
+.secret-message h1 {
+  font-size: 27px;
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: scale(.65);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -55px;
+  animation: heartPop var(--duration) ease-out forwards;
+  animation-delay: var(--delay);
+  font-size: var(--size);
+  opacity: 0;
+}
+
+@keyframes heartPop {
+  0% {
+    transform: translateY(0) scale(.3) rotate(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(-80px) scale(1.1) rotate(15deg);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-650px) scale(1.3) rotate(-25deg);
+    opacity: 0;
+  }
+}
+
+.hidden-love-button {
+  position: absolute;
+  right: 28px;
+  bottom: 24px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #79549c;
+  background: #302044;
+  color: #e5b8ff;
+  font-size: 17px;
+  opacity: .55;
+  z-index: 5;
+}
+
+.hidden-love-button:hover {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+#ultimateSecretScreen {
+  background: linear-gradient(145deg, #2b1948, #211237);
+}
+
+.secret-note {
+  margin-top: 10px;
+  padding: 16px;
+  border: 1px dashed #9d69c9;
+  border-radius: 16px;
+  background: #392250;
+  color: #f1e4ff;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.site-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  padding: 6px 12px;
+  text-align: center;
+  color: #b99acb;
+  font-size: 13px;
+  letter-spacing: .4px;
+  z-index: 10;
+  pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FIRST INTERFACE -->
+<section class="screen active" id="screen1">
+  <div class="emoji">🥺</div>
+  <h1>Devii Jii</h1>
+  <p>Ma'am, kya aap theek ho?</p>
+
+  <div class="buttons">
+    <button onclick="show('happyScreen')">
+      Haan, main toh khush hoon
+    </button>
+    <button onclick="show('angryScreen')">
+      Nahi, gussa hoon
+    </button>
+  </div>
+</section>
+
+<!-- HAPPY BRANCH -->
+<section class="screen" id="happyScreen">
+  <div class="cat">🐱</div>
+  <h1>Arey wah, aap toh khush ho!</h1>
+  <p>Yay!</p>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- ANGRY OPTIONS -->
+<section class="screen" id="angryScreen">
+  <div class="emoji">😟</div>
+  <h1>Kya aap sach mein mujhse gussa ho?</h1>
+
+  <div class="buttons">
+    <button onclick="show('apologyScreen')">Haan, bahut zyada</button>
+    <button onclick="show('teasingScreen')">Maje le rhi hu</button>
+    <button onclick="show('convinceScreen')">Haan, lekin mana lo</button>
+    <button onclick="show('apologyScreen')">Baat hi nahi karni mujhe</button>
+  </div>
+
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- TEASING BRANCH -->
+<section class="screen teasing-screen" id="teasingScreen">
+  <div class="emoji">😢</div>
+  <p>Maje le rahi thi mere, jao yahan se, ab mujhe baat nahi karni tumse, bye.</p>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- CONVINCE OPTIONS -->
+<section class="screen" id="convinceScreen">
+  <div class="emoji">🥹</div>
+  <h1>Achha, kaise manaun aapko?</h1>
+
+  <div class="buttons">
+    <button onclick="show('hugScreen')">Hug 🫂</button>
+    <button onclick="show('kissScreen')">Kiss 😘</button>
+    <button onclick="show('flyingScreen')">Flying kiss 💋</button>
+    <button onclick="show('extraScreen')">Aur kuch chahiye</button>
+  </div>
+
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- HUG -->
+<section class="screen" id="hugScreen">
+  <div class="emoji">🫂</div>
+  <h1>Ek pyaara sa hug!</h1>
+  <p>Ab toh maan jao na, Devii Jii.</p>
+  <button onclick="startGameRoute()">Chalo jaane se pehle ek game toh khel lo</button>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- KISS -->
+<section class="screen" id="kissScreen">
+  <div class="emoji">😘</div>
+  <h1>Ek pyaari si kiss!</h1>
+  <p>Please maan jao na, Devii Jii.</p>
+  <button onclick="startGameRoute()">Chalo jaane se pehle ek game toh khel lo</button>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- FLYING KISS -->
+<section class="screen" id="flyingScreen">
+  <div class="emoji">💋</div>
+  <h1>Flying kiss aapke liye!</h1>
+  <p>Ab toh smile kar do, Devii Jii.</p>
+  <button onclick="startGameRoute()">Chalo jaane se pehle ek game toh khel lo</button>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- EXTRA REQUEST -->
+<section class="screen" id="extraScreen">
+  <div class="emoji">💜</div>
+  <h1>Theek hai, mil jayega jo bhi chahiye, mujhe bata do chat mein aakar.</h1>
+  <button onclick="startGameRoute()">Chalo jaane se pehle ek game toh khel lo</button>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- APOLOGY BRANCH -->
+<section class="screen" id="apologyScreen">
+  <div class="emoji">🥺</div>
+  <h1>Achha, sorry na, please maaf kar do.</h1>
+  <p>Kaise maaf karoge?</p>
+
+  <div class="buttons">
+    <button onclick="startGameRoute()">Chocolate 🍫</button>
+    <button onclick="startGameRoute()">Dance video 💃</button>
+    <button onclick="startGameRoute()">Voice note 🎤</button>
+    <button onclick="startGameRoute()">Sab kuch chahiye 💜</button>
+  </div>
+
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- GAME -->
+<section class="screen" id="gameScreen">
+  <div class="emoji">💜</div>
+  <h1>Theek hai, mil jayega sab kuch.</h1>
+  <p>Chalo jaane se pehle ek game khel lo.</p>
+  <p>10 seconds mein 5 hearts pakdo!</p>
+  <p>Score: <span id="score">0</span>/5</p>
+  <p id="timer">Time: 10</p>
+
+  <div class="game-hearts">
+    <button class="heart" data-heart="💗" onclick="catchHeart(this)">💗</button>
+    <button class="heart" data-heart="💖" onclick="catchHeart(this)">💖</button>
+    <button class="heart" data-heart="💕" onclick="catchHeart(this)">💕</button>
+    <button class="heart" data-heart="💘" onclick="catchHeart(this)">💘</button>
+    <button class="heart" data-heart="💝" onclick="catchHeart(this)">💝</button>
+  </div>
+
+  <p id="gameMessage">Ready? Chalo shuru karo!</p>
+  <button id="startButton" onclick="startGame()">Game shuru karo</button>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- GAME SUCCESS -->
+<section class="screen" id="forgiveScreen">
+  <div class="emoji">🥹💜</div>
+  <h1>Theek hai, aapne maaf kar diya na?</h1>
+
+  <div class="buttons">
+    <button onclick="show('finalHappyScreen')">Haan kar diya</button>
+    <button onclick="show('notForgivenScreen')">Nahi kara</button>
+  </div>
+
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- NOT FORGIVEN -->
+<section class="screen" id="notForgivenScreen">
+  <div class="emoji">😿</div>
+  <h1>Abhi bhi nahi kara, please kar do na, aap toh achhe ho.</h1>
+  <button onclick="show('finalHappyScreen')">Theek hai, maaf kar diya</button>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- FINAL HAPPY SCREEN -->
+<section class="screen" id="finalHappyScreen">
+  <div class="cat">🐱</div>
+  <h1>Finally!</h1>
+  <p>Thank you, Devii Jii! 💜</p>
+
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+
+  <!-- VISIBLE LOVE-SURPRISE BUTTON -->
+  <button onclick="openSecretLove()">Ye lo itna saara pyaar aapke liye 💜</button>
+</section>
+
+<!-- FIRST SECRET: LOVE SHOWER -->
+<section class="screen" id="secretLoveScreen">
+  <div id="heartShower"></div>
+
+  <div class="secret-message">
+    <div class="emoji">💗</div>
+    <h1>Ye lo itna saara pyaar aapke liye 💜</h1>
+  </div>
+
+  <!-- BACK TO THE IMMEDIATELY PREVIOUS SCREEN -->
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+
+  <!-- SECOND HIDDEN BUTTON -->
+  <button
+    class="hidden-love-button"
+    onclick="openUltimateSecret()"
+    aria-label="Ek aur secret"
+    title="🤫"
+  >♡</button>
+</section>
+
+<!-- ULTIMATE SECRET: ONLY REACHED THROUGH THE HIDDEN BUTTON -->
+<section class="screen" id="ultimateSecretScreen">
+  <div class="emoji">💌</div>
+  <h1>Aapko koi photo bhi chahiye toh bata dena 💜</h1>
+
+  <div class="secret-note">
+    This button was hidden, aur aapne isko dhoondh liya! 😭💗
+    <br><br>
+    Mujhe aake inform kar dena.
+    <br>
+    Congrats, Devii Jii! 🥳💜
+  </div>
+  <button class="back-button" onclick="goBack()">← Peeche jao</button>
+</section>
+
+<!-- FOOTER OUTSIDE THE MAIN WEBSITE BOX -->
+<footer class="site-footer">by Shiven (Gadha Aadmi)</footer>
+
+<script>
+let navigationHistory = [];
+let currentScreen = "screen1";
+
+let gameInterval = null;
+let gameTimeout = null;
+let timeLeft = 10;
+let score = 0;
+let gameRunning = false;
+
+/* SCREEN NAVIGATION */
+function show(screenId) {
+  if (screenId === currentScreen) return;
+
+  stopGame();
+  navigationHistory.push(currentScreen);
+  displayScreen(screenId);
+}
+
+function displayScreen(screenId) {
+  document.querySelectorAll(".screen").forEach(function(screen) {
+    screen.classList.remove("active");
+  });
+
+  document.getElementById(screenId).classList.add("active");
+  currentScreen = screenId;
+}
+
+function goBack() {
+  stopGame();
+
+  if (navigationHistory.length === 0) return;
+
+  const previousScreen = navigationHistory.pop();
+  displayScreen(previousScreen);
+}
+
+/* GAME ROUTE */
+function startGameRoute() {
+  resetGame();
+  show("gameScreen");
+}
+
+/* GAME CONTROL */
+function stopGame() {
+  if (gameInterval !== null) {
+    clearInterval(gameInterval);
+    gameInterval = null;
+  }
+
+  if (gameTimeout !== null) {
+    clearTimeout(gameTimeout);
+    gameTimeout = null;
+  }
+
+  gameRunning = false;
+}
+
+function resetGame() {
+  stopGame();
+
+  score = 0;
+  timeLeft = 10;
+
+  document.getElementById("score").textContent = "0";
+  document.getElementById("timer").textContent = "Time: 10";
+  document.getElementById("gameMessage").textContent =
+    "Ready? Chalo shuru karo!";
+  document.getElementById("startButton").disabled = false;
+
+  document.querySelectorAll(".heart").forEach(function(button) {
+    button.disabled = false;
+    button.textContent = button.dataset.heart;
+  });
+}
+
+function startGame() {
+  resetGame();
+
+  gameRunning = true;
+  document.getElementById("startButton").disabled = true;
+  document.getElementById("gameMessage").textContent = "Jaldi pakdo! 💜";
+
+  gameInterval = setInterval(function() {
+    timeLeft--;
+    document.getElementById("timer").textContent = "Time: " + timeLeft;
+
+    if (timeLeft <= 0) {
+      finishGame();
+    }
+  }, 1000);
+}
+
+function catchHeart(button) {
+  if (!gameRunning || button.disabled) return;
+
+  button.disabled = true;
+  button.textContent = "✨";
+  score++;
+
+  document.getElementById("score").textContent = score;
+
+  if (score >= 5) {
+    stopGame();
+
+    document.getElementById("gameMessage").textContent =
+      "Yay! Aap jeet gaye! 💜";
+
+    gameTimeout = setTimeout(function() {
+      gameTimeout = null;
+      show("forgiveScreen");
+    }, 700);
+  }
+}
+
+function finishGame() {
+  stopGame();
+  document.getElementById("startButton").disabled = false;
+
+  if (score >= 5) {
+    document.getElementById("gameMessage").textContent =
+      "Yay! Aap jeet gaye! 💜";
+
+    gameTimeout = setTimeout(function() {
+      gameTimeout = null;
+      show("forgiveScreen");
+    }, 700);
+  } else {
+    document.getElementById("gameMessage").textContent =
+      "Oops! Phir se try karo na 🥺";
+  }
+}
+
+/* FIRST SECRET: POPPING HEARTS */
+function openSecretLove() {
+  stopGame();
+
+  navigationHistory.push(currentScreen);
+  displayScreen("secretLoveScreen");
+
+  const shower = document.getElementById("heartShower");
+  shower.innerHTML = "";
+
+  const hearts = ["💗", "💖", "💕", "💘", "💝", "💜", "❤️"];
+
+  for (let i = 0; i < 75; i++) {
+    const heart = document.createElement("span");
+
+    heart.className = "floating-heart";
+    heart.textContent =
+      hearts[Math.floor(Math.random() * hearts.length)];
+
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.setProperty(
+      "--size",
+      (18 + Math.random() * 25) + "px"
+    );
+    heart.style.setProperty(
+      "--duration",
+      (2.5 + Math.random() * 2) + "s"
+    );
+    heart.style.setProperty(
+      "--delay",
+      (Math.random() * 3) + "s"
+    );
+
+    shower.appendChild(heart);
+  }
+}
+
+/* SECOND SECRET: FINAL HIDDEN MESSAGE */
+function openUltimateSecret() {
+  stopGame();
+
+  navigationHistory.push(currentScreen);
+  displayScreen("ultimateSecretScreen");
+}
+</script>
+
+</body>
+</html>
